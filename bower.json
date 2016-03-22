@@ -1,0 +1,21 @@
+{
+  "name": "revision-calendar",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Marcin Mazurek <marcin@mazurek.pro>"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#1.4.0"    
+  }
+}
