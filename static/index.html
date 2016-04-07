@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Revision Calendar</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+    <link rel="import" href="bower_components/paper-styles/color.html">
+    <link rel="import" href="bower_components/paper-toolbar/paper-toolbar.html">
+    <link rel="import" href="bower_components/paper-card/paper-card.html">
+    <link rel="import" href="bower_components/paper-button/paper-button.html">
+    <link rel="import" href="bower_components/paper-input/paper-textarea.html">
+    <link rel="import" href="bower_components/paper-spinner/paper-spinner.html">
+    <link rel="import" href="bower_components/iron-icons/iron-icons.html">
+    <link rel="import" href="bower_components/iron-icon/iron-icon.html">
+    <link rel="import" href="bower_components/paper-toast/paper-toast.html">
+    <script src="bower_components/moment/min/moment.min.js"></script>
+    <script src="application.js"></script>
+    <script src="https://apis.google.com/js/client.js?onload=runApplication"></script>
+    <style is="custom-style">
+      body {
+        font-size: 14px;
+        margin: 0;
+        background-color: var(--paper-grey-50);
+      }
+
+      paper-toolbar.header .icon {
+        margin-left: 16px;
+      }
+
+      paper-toolbar.header .title {
+        margin-left: 24px;
+      }
+
+      paper-card {
+        width: 100%;
+        margin-bottom: 15px;
+      }
+
+      @media (min-width: 700px) {
+        paper-card {
+          width: 100%;
+          margin-bottom: 30px;
+        }
+      }
+
+      paper-card.add-reminders .card-actions {
+        text-align: right;
+      }
+
+      paper-card.add-reminders .card-content, paper-card.log-in .card-content {
+        padding-top: 0;
+      }
+
+      paper-card .main-header {
+        font-weight: normal;
+      }
+
+      paper-card.add-reminders .main-header {
+        margin-bottom: 0;
+      }
+
+      paper-card.add-reminders .card-content .dates-header {
+        color: var(--google-blue-700);
+        font-size: 16px;
+        font-weight: normal;
+        margin-bottom: 0;
+      }
+
+      paper-card.add-reminders .card-content .dates {
+        margin-top: 8px;
+        padding-left: 20px;
+        line-height: 28px;
+        font-size: 14px;
+      }
+
+      paper-button.log-in-button {
+        background-color: var(--paper-blue-900);
+        color: white;
+      }
+
+      paper-button.log-in-button[active] {
+        background-color: var(--paper-blue-700);
+      }
+
+      .loader-container {
+        text-align: center;
+        position: absolute;
+        top: 50%;
+        width: 100%;
+      }
+
+      paper-spinner.loader {
+        width: 80px;
+        height: 80px;
+        --paper-spinner-stroke-width: 4px;
+      }
+
+      main {
+        padding: 15px;
+      }
+
+      @media (min-width: 700px) {
+        main {
+          padding: 30px;
+        }
+      }
+
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <paper-toolbar class="header">
+      <iron-icon icon="date-range" class="icon"></iron-icon>
+      <div class="title">Revision Calendar</div>
+    </paper-toolbar>
+    <main>
+      <div id="loader-container" class="loader-container">
+        <paper-spinner active class="loader"></paper-spinner>
+      </div>
+      <paper-card class="log-in hidden" id="log-in-card">
+        <div class="card-content">
+          <h2 class="main-header">Log in to Google Calendar</h2>
+          <p>You must be logged in to Google Calendar in order to use this app.</p>
+          <paper-button raised class="log-in-button" onclick="authorize()">
+            <iron-icon icon="lock-open"></iron-icon> Log in
+          </paper-button>
+        </div>
+      </paper-card>
+      <paper-card class="add-reminders hidden" id="add-reminders-card">
+        <div class="card-content">
+          <h2 class="main-header">Add reminders</h2>
+          <paper-textarea label="Description" id="description"></paper-textarea>
+          <h3 class="dates-header">You'll be reminded at:</h3>
+          <ul class="dates" id="dates-list"></ul>
+        </div>
+        <div class="card-actions">
+          <paper-button onclick="saveReminder()" id="save-button">
+            <iron-icon icon="check"></iron-icon> Save
+          </paper-button>
+        </div>
+      </paper-card>
+      <paper-toast id="reminders-added-alert" text="Reminders added!" class="fit-bottom"></paper-toast>
+    </main>
+  </body>
+</html>
