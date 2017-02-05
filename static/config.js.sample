@@ -1,0 +1,4 @@
+window.config = {
+  clientId: "client ID from Google Developer Console",
+  days: [3, 10, 30, 60]
+};

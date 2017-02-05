@@ -14,7 +14,20 @@
     <link rel="import" href="bower_components/iron-icon/iron-icon.html">
     <link rel="import" href="bower_components/paper-toast/paper-toast.html">
     <script src="bower_components/moment/min/moment.min.js"></script>
-    <script src="application.js"></script>
+    <script src="config.js"></script>
+    <script src="calendar-service.js"></script>
+    <script src="revision-calendar.js"></script>
+    <script>
+      function runApplication() {
+        HTMLImports.whenReady(() => {
+          const app = new RevisionCalendar(
+            new CalendarService(config.clientId),
+            config.days
+          );
+          app.run();
+        });
+      }
+    </script>
     <script src="https://apis.google.com/js/client.js?onload=runApplication"></script>
     <style is="custom-style">
       body {
@@ -123,7 +136,7 @@
         <div class="card-content">
           <h2 class="main-header">Log in to Google Calendar</h2>
           <p>You must be logged in to Google Calendar in order to use this app.</p>
-          <paper-button raised class="log-in-button" onclick="authorize()">
+          <paper-button raised id="log-in-button" class="log-in-button">
             <iron-icon icon="lock-open"></iron-icon> Log in
           </paper-button>
         </div>
@@ -132,16 +145,16 @@
         <div class="card-content">
           <h2 class="main-header">Add reminders</h2>
           <paper-textarea label="Description" id="description"></paper-textarea>
-          <h3 class="dates-header">You'll be reminded at:</h3>
-          <ul class="dates" id="dates-list"></ul>
+          <h3 class="dates-header">You'll be reminded on:</h3>
+          <ul class="dates" id="date-list"></ul>
         </div>
         <div class="card-actions">
-          <paper-button onclick="saveReminder()" id="save-button">
+          <paper-button id="save-button">
             <iron-icon icon="check"></iron-icon> Save
           </paper-button>
         </div>
       </paper-card>
-      <paper-toast id="reminders-added-alert" text="Reminders added!" class="fit-bottom"></paper-toast>
+      <paper-toast id="alert" class="fit-bottom"></paper-toast>
     </main>
   </body>
 </html>
